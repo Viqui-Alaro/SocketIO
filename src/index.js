@@ -16,9 +16,20 @@ app.get("/", (req,res)=>{
 
 io.on("connection", socket =>{
 
-    console.log(socket.id);
+/*
+    console.log("Clientes conectados", io.engine.clientsCount);
+    console.log("ID del socket conectado:", socket.id);
+*/
 
-    
+/*
+    socket.on("disconnect",()=>{
+
+        console.log("El socket "+socket.id+ " se ha desconectado.");
+    });
+*/
+
+
+
 
 });
 
