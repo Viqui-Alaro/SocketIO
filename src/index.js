@@ -16,25 +16,15 @@ app.get("/", (req,res)=>{
 
 io.on("connection", socket =>{
 
-
-/*
-    console.log("Clientes conectados", io.engine.clientsCount);
-    console.log("ID del socket conectado:", socket.id);
-*/
-
-
-/*
-    socket.on("disconnect",()=>{
-
-        console.log("El socket "+socket.id+ " se ha desconectado.");
-    });
-*/
-
-    socket.conn.once("upgrade",()=>{
-       console.log("Hemos pasado de HTTP Long-Polling a",
-       socket.conn.transport.name); 
+    // Emisión Básica
+    socket.emit("Welcome","Ahora estás conectado.");
+    
+    socket.on("server",data=>{
+        console.log(data);
     });
 
+    // Emisión a Todos
+    io.emit("everyone", socket.id + " se ha conectado ");
 
 });
 
