@@ -16,10 +16,12 @@ app.get("/", (req,res)=>{
 
 io.on("connection", socket =>{
 
+
 /*
     console.log("Clientes conectados", io.engine.clientsCount);
     console.log("ID del socket conectado:", socket.id);
 */
+
 
 /*
     socket.on("disconnect",()=>{
@@ -28,7 +30,10 @@ io.on("connection", socket =>{
     });
 */
 
-
+    socket.conn.once("upgrade",()=>{
+       console.log("Hemos pasado de HTTP Long-Polling a",
+       socket.conn.transport.name); 
+    });
 
 
 });
