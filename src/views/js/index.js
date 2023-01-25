@@ -1,50 +1,46 @@
 
 const socket = io();
 
-socket.on("Welcome",data =>{
 
-    const text = document.querySelector("#text");
-    text.textContent = data;
+// selecciono mis 3 botones que me permiten conectarme a las salas
+const connectRoom1 = document.querySelector("#connectRoom1");
+const connectRoom2 = document.querySelector("#connectRoom2");
+const connectRoom3 = document.querySelector("#connectRoom3");
 
+
+// eventos para que al hacer click me conecte a las salas
+
+connectRoom1.addEventListener("click",()=>{
+    socket.emit("connect to room","room1");
 });
 
-const emitToServer = document.querySelector("#emit-to-server");
-emitToServer.addEventListener("click",()=>{
-
-    socket.emit("server"," Hola, servidor");
-
-
+connectRoom2.addEventListener("click",()=>{
+    socket.emit("connect to room","room2");
 });
 
-socket.on("everyone",message =>{
-    console.log(message);
+connectRoom3.addEventListener("click",()=>{
+    socket.emit("connect to room","room3");
 });
 
-const emitToLast = document.querySelector("#emit-to-last");
-emitToServer.addEventListener("click",()=>{
-    socket.emit("last","Hola");
+//Enviar Mensaje
+
+const sendMessage = document.querySelector("#sendMessage");
+
+sendMessage.addEventListener("click",()=>{
+    const message = prompt("Escribe tu mensaje:");
+
+    socket.emit("message",message);
+});   
+
+
+//Recibir el evento del mesaje
+
+socket.on("send message", data=>{
+    const {room} =data;
+    const {message} =data;
+
+    const li = document.createElement("li");
+    li.textContent = message;
+
+    document.querySelector(`#${room}`).append(li);
 });
-
-socket.on("salute",message =>{
-    console.log(message);
-});
-
-socket.on("on",() =>{
-    console.log("Se emite varias veces");
-});
-
-
-socket.once("once",() =>{
-    console.log("Se emite una sola vez");
-});
-
-
-const listener =()=>{
-    console.log("Se apaga el evento");
-}
-
-socket.on("off",listener);
-setTimeout(()=>{
-
-    socket.off("off",listener);
-},2000);
